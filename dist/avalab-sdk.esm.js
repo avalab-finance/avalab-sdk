@@ -17,7 +17,8 @@ var ChainId = {
   BINANCE: 56,
   HARMONY: 1666600000,
   TESTNET: 1666700000,
-  LOCAL: 1337
+  LOCAL: 1337,
+  AVALANCHE: 43114
 };
 var TradeType;
 
@@ -39,23 +40,24 @@ var FACTORY_ADDRESS = {
   56: "",
   1666600000: "0x5d2F9817303b940C9bB4F47C8C566c5C034d9848",
   1666700000: "0xE20b789DB6104e3bF0A4A33dA78465A59fcd7199",
-  1337: "0x515C48855d0AFCdaA009379ea6ecb861908d1b0b" //v1 0x316730Ba39D32a44D0CfB7e872D49cC7F5d4d2d5
-
+  1337: "0x515C48855d0AFCdaA009379ea6ecb861908d1b0b", //v1 0x316730Ba39D32a44D0CfB7e872D49cC7F5d4d2d5
+  43114: ""
 };
 var INIT_CODE_HASH = {
   1: "",
   56: "",
   1666600000: '0x613b6eaa34b43dcb7eb8881dd4b5af85805be104d5f2f385304ffa8bda5e219c',
   1666700000: "0xee4d3ae31af9cf8fd99aafbe0ea4a1d6250073c404d12b6d8f2f32b4fb4ab83f",
-  1337: "0x17c02fdb11e993c924cf1935a3bb1c8811d0b28411127186c3fb2d47c9560c99" //v1 0x1b293c55c0e14543e968ba2bc9983cf8c7e3f7c661cb4fc01c1047424a6e2234
-
+  1337: "0x17c02fdb11e993c924cf1935a3bb1c8811d0b28411127186c3fb2d47c9560c99", //v1 0x1b293c55c0e14543e968ba2bc9983cf8c7e3f7c661cb4fc01c1047424a6e2234
+  43114: ""
 };
 var RPC_URLS = {
   1: "",
   56: "",
   1666600000: 'https://harmony-0.gateway.pokt.network/v1/lb/618a63ac7335c800360b4ce3',
   1666700000: 'https://api.s0.pops.one/',
-  1337: "http://localhost:7545"
+  1337: "http://localhost:7545",
+  43114: "https://api.avax.network/ext/bc/C/rpc"
 };
 var MINIMUM_LIQUIDITY = /*#__PURE__*/JSBI.BigInt(1000); // exports for internal consumption
 
@@ -490,7 +492,7 @@ function currencyEquals(currencyA, currencyB) {
     return currencyA === currencyB;
   }
 }
-var WETH = (_WETH = {}, _WETH[ChainId.HARMONY] = /*#__PURE__*/new Token(ChainId.HARMONY, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', 18, 'WETH', 'Wrapped Ether'), _WETH[ChainId.TESTNET] = /*#__PURE__*/new Token(ChainId.TESTNET, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WETH);
+var WETH = (_WETH = {}, _WETH[ChainId.AVALANCHE] = /*#__PURE__*/new Token(ChainId.AVALANCHE, '0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB', 18, 'WETH', 'Wrapped Ether'), _WETH[ChainId.TESTNET] = /*#__PURE__*/new Token(ChainId.TESTNET, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WETH);
 
 var _toSignificantRoundin, _toFixedRounding;
 var Decimal = /*#__PURE__*/toFormat(_Decimal);
@@ -813,7 +815,7 @@ var Pair = /*#__PURE__*/function () {
   function Pair(tokenAmountA, tokenAmountB) {
     var tokenAmounts = tokenAmountA.token.sortsBefore(tokenAmountB.token) // does safety checks
     ? [tokenAmountA, tokenAmountB] : [tokenAmountB, tokenAmountA];
-    this.liquidityToken = new Token(tokenAmounts[0].token.chainId, Pair.getAddress(tokenAmounts[0].token, tokenAmounts[1].token), 18, 'ONSP', 'OpenSwap');
+    this.liquidityToken = new Token(tokenAmounts[0].token.chainId, Pair.getAddress(tokenAmounts[0].token, tokenAmounts[1].token), 18, 'AVALIQ', 'AVALiquidity');
     this.tokenAmounts = tokenAmounts;
   }
 
@@ -2304,7 +2306,7 @@ var ERC20 = [
 ];
 
 var _TOKEN_DECIMALS_CACHE;
-var TOKEN_DECIMALS_CACHE = (_TOKEN_DECIMALS_CACHE = {}, _TOKEN_DECIMALS_CACHE[ChainId.HARMONY] = {
+var TOKEN_DECIMALS_CACHE = (_TOKEN_DECIMALS_CACHE = {}, _TOKEN_DECIMALS_CACHE[ChainId.AVALANCHE] = {
   '0xE0B7927c4aF23765Cb51314A0E0521A9645F0E2A': 9 // DGD
 
 }, _TOKEN_DECIMALS_CACHE);
@@ -2435,4 +2437,3 @@ var Fetcher = /*#__PURE__*/function () {
 }();
 
 export { ChainId, Currency, CurrencyAmount, ETHER, FACTORY_ADDRESS, Fetcher, Fraction, INIT_CODE_HASH, InsufficientInputAmountError, InsufficientReservesError, MINIMUM_LIQUIDITY, Pair, Percent, Price, Rounding, Route, Router, Token, TokenAmount, Trade, TradeType, WETH, currencyEquals, inputOutputComparator, tradeComparator };
-//# sourceMappingURL=openswap-v2-sdk.esm.js.map
